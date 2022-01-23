@@ -45,7 +45,7 @@ function displayRecipe($recipe)
 {
     echo "<h2>" . $recipe["title"] . "</h2>";
     echo "<p>" . $recipe["description"] . "</p>";
-    echo "<p>" . $recipe["description"] . "</p>";
+    echo "<p>" . $recipe["user_name"] . "</p>";
 }
 
 /**
@@ -62,6 +62,7 @@ function displayRecipes($recipes)
 
 
 $recipes = fetchAllRecipes($pdo);
+debug($recipes);
 displayRecipes($recipes);
 
 ?>
