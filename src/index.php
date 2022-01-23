@@ -26,7 +26,7 @@ catch (Exception $e)
  */
 function fetchAllRecipes(PDO $pdo)
 {
-    $query = 'SELECT * FROM recipes';
+    $query = 'SELECT * FROM recipes INNER JOIN users ON recipes.user_id = users.id';
     $statement = $pdo->prepare($query);
     $statement->execute();
     return $statement->fetchAll();
@@ -39,6 +39,7 @@ function fetchAllRecipes(PDO $pdo)
 function displayRecipe($recipe)
 {
     echo "<h2>" . $recipe["title"] . "</h2>";
+    echo "<p>" . $recipe["description"] . "</p>";
     echo "<p>" . $recipe["description"] . "</p>";
 }
 
