@@ -28,4 +28,5 @@ $pdo->prepare($sql)->execute($data);
 
 // sécu : htmlspecialchars  /ou echo strip_tags($message);--> déconseillé dans la doc pour la faille XSS...
 
+header("Location: index.php");
 
