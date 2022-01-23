@@ -1,7 +1,10 @@
 <?php
 
-echo("Validation formulaire : <br>");
+require_once('db.php');
 
+$pdo = connect();
+
+/*
 if (!isset($_POST['user_name']) || !isset($_POST['password']))
 {
     echo('Il faut un email et un message valides pour soumettre le formulaire.');
