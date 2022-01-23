@@ -1,6 +1,6 @@
 <!-- Formulaire d'inscription avec email password et bouton -->
 
-<form method="post" action="submit_form.php">
+<form method="post" action="register_action.php">
 
     <label for="user_name">User name:</label><br>
     <input id="user_name" type="text" name="user_name"/><br>

@@ -12,8 +12,17 @@ else
     echo('Demande de contact reçue, bienvenue ' . $_POST["user_name"]);
 }
 
-$email = $_POST['name'];
-$message = $_POST['password'];
+// $email = $_POST['name'];
+// $message = $_POST['password'];
+
+$data = [
+    'user_name' => $_POST["user_name"],
+    'email' => $_POST["email"],
+    'password' => $_POST["password"],
+];
+
+$sql = "INSERT INTO users (user_name, email, password) VALUES (:user_name, :email, :password)";
+$pdo->prepare($sql)->execute($data);
 
 // sécu : htmlspecialchars ou echo strip_tags($message); !!!
 
