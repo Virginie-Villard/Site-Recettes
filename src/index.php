@@ -19,6 +19,11 @@ catch (Exception $e)
 // On récupère tout le contenu de la table recipes
 
 
+function debug($value)
+{
+    echo "<pre>".print_r($value)."</pre>";
+}
+
 /**
  * Fetch all recipes
  * @param PDO $pdo
