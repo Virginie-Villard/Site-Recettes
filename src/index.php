@@ -17,21 +17,45 @@ catch (Exception $e)
 }
 
 // On récupère tout le contenu de la table recipes
-$query = 'SELECT * FROM recipes';
-$statement = $pdo->prepare($query);
-$statement->execute();
-$recipes = $statement->fetchAll();
 
-// Fonction qui affiche le nom d'une recette
+
+/**
+ * Fetch all recipes
+ * @param PDO $pdo
+ * @return array|false
+ */
+function fetchAllRecipes(PDO $pdo)
+{
+    $query = 'SELECT * FROM recipes';
+    $statement = $pdo->prepare($query);
+    $statement->execute();
+    return $statement->fetchAll();
+}
+
+/**
+ * @param $recipe
+ * @return void
+ */
 function displayRecipe($recipe)
 {
     echo "<h2>" . $recipe["title"] . "</h2>";
     echo "<p>" . $recipe["description"] . "</p>";
 }
 
-// On affiche chaque recette une à une
-foreach ($recipes as $recipe)
+/**
+ * @param array $recipes
+ * @return void
+ */
+function displayRecipes($recipes)
 {
-    displayRecipe($recipe);
+    foreach ($recipes as $recipe)
+    {
+        displayRecipe($recipe);
+    }
 }
+
+
+$recipes = fetchAllRecipes($pdo);
+displayRecipes($recipes);
+
 ?>
