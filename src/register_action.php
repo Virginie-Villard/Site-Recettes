@@ -10,20 +10,19 @@ if (!isset($_POST['user_name']) || !isset($_POST['password']))
 else
 {
     echo('Demande de contact reçue, bienvenue ' . $_POST["user_name"]);
-}
+}*/
 
-// $email = $_POST['name'];
-// $message = $_POST['password'];
+// https://phpdelusions.net/pdo_examples/insert
 
 $data = [
-    'user_name' => $_POST["user_name"],
-    'email' => $_POST["email"],
-    'password' => $_POST["password"],
+    'user_name' => htmlspecialchars($_POST["user_name"]),
+    'email' => htmlspecialchars($_POST["email"]),
+    'password' => htmlspecialchars($_POST["password"]),
 ];
 
 $sql = "INSERT INTO users (user_name, email, password) VALUES (:user_name, :email, :password)";
 $pdo->prepare($sql)->execute($data);
 
-// sécu : htmlspecialchars ou echo strip_tags($message); !!!
+// sécu : htmlspecialchars  /ou echo strip_tags($message);--> déconseillé dans la doc pour la faille XSS...
 
 
