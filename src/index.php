@@ -62,7 +62,8 @@ function displayRecipes($recipes)
 
 
 $recipes = fetchAllRecipes($pdo);
-debug($recipes);
 displayRecipes($recipes);
+
+include_once('register.php');
 
 ?>
