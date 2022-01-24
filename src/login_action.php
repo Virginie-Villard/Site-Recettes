@@ -25,22 +25,25 @@ if(isset($_POST['email']) && isset($_POST['password']))
 
         if($user)
         {
-            $_SESSION['email'] = $email;
+            $_SESSION['user'] = $user;
             header('Location: index.php');
         }
         else
         {
             header('Location: login.php?error=1'); // utilisateur ou mot de passe incorrect
+            // echo "Utilisateur ou Mot de passe inconnu ou incorrect.";
         }
     }
     else
     {
         header('Location: login.php?error=2'); // utilisateur ou mot de passe vide
+        // echo "Remplissez les champs Utilisateur et Mot de passe, merci.";
     }
 }
 else
 {
     header('Location: login.php');
+    // echo "Remplissez les champs Utilisateur et Mot de passe, merci.";
 }
 
 // fermer la connexion
