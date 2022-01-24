@@ -1,32 +1,36 @@
 <?php
 
-require_once('db.php');
+session_start();
 
-$pdo = connect();
 
-/*
-if (!isset($_POST['user_name']) || !isset($_POST['password']))
+require_once 'db.php';
+require_once 'authentication.php';
+
+if(!empty($_POST['user_name']) && !empty($_POST['email']) && !empty($_POST['password']))
 {
-    echo('Il faut un email et un message valides pour soumettre le formulaire.');
-    return;
+    // connexion à la BDD
+    $pdo = connect();
+
+    if(register($pdo, $_POST['user_name'], $_POST['email'], $_POST['password']))
+    {
+        if(login($pdo, $_POST['email'], $_POST['password']))
+        {
+            header('Location: index.php');
+        }
+        else
+        {
+            header('Location: register.php?error=3'); // échec login après register
+        }
+    }
+    else
+    {
+        header('Location: register.php?error=1'); // utilisateur ou mot de passe incorrect
+    }
 }
 else
 {
-    echo('Demande de contact reçue, bienvenue ' . $_POST["user_name"]);
-}*/
+    header('Location: register.php?error=2'); // utilisateur ou mot de passe vide
+}
 
-// https://phpdelusions.net/pdo_examples/insert
-
-$data = [
-    'user_name' => htmlspecialchars($_POST["user_name"]),
-    'email' => htmlspecialchars($_POST["email"]),
-    'password' => htmlspecialchars($_POST["password"]),
-];
-
-$sql = "INSERT INTO users (user_name, email, password) VALUES (:user_name, :email, :password)";
-$pdo->prepare($sql)->execute($data);
-
-// sécu : htmlspecialchars  /ou echo strip_tags($message);--> déconseillé dans la doc pour la faille XSS...
-
-header("Location: index.php");
+// fermer la connexion
 

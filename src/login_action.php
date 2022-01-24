@@ -3,47 +3,26 @@ session_start();
 
 // http://www.codeurjava.com/2016/12/formulaire-de-login-avec-html-css-php-et-mysql.html
 
-require_once('db.php');
-require_once('utils.php');
+require_once 'db.php';
+require_once 'authentication.php';
 
-if(isset($_POST['email']) && isset($_POST['password']))
+if(!empty($_POST['email']) && !empty($_POST['password']))
 {
     // connexion à la BDD
     $pdo = connect();
 
-    // on applique les deux fonctions mysqli_real_escape_string et htmlspecialchars --> cf pr PDO
-    // pour éliminer toute attaque de type injection SQL et XSS
-    // public PDOStatement::bindValue(string|int $param, mixed $value, int $type = PDO::PARAM_STR): bool
-    $email = htmlspecialchars($_POST['email']);
-    $password = htmlspecialchars($_POST['password']);
-
-    if($email !== "" && $password !== "")
+    if(login($pdo, $_POST['email'], $_POST['password']))
     {
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email AND password=:password");
-        $stmt->execute(['email' => $email, 'password' => $password]);
-        $user = $stmt->fetch();
-
-        if($user)
-        {
-            $_SESSION['user'] = $user;
-            header('Location: index.php');
-        }
-        else
-        {
-            header('Location: login.php?error=1'); // utilisateur ou mot de passe incorrect
-            // echo "Utilisateur ou Mot de passe inconnu ou incorrect.";
-        }
+        header('Location: index.php');
     }
     else
     {
-        header('Location: login.php?error=2'); // utilisateur ou mot de passe vide
-        // echo "Remplissez les champs Utilisateur et Mot de passe, merci.";
+        header('Location: login.php?error=1'); // utilisateur ou mot de passe incorrect
     }
 }
 else
 {
-    header('Location: login.php');
-    // echo "Remplissez les champs Utilisateur et Mot de passe, merci.";
+    header('Location: login.php?error=2'); // utilisateur ou mot de passe vide
 }
 
 // fermer la connexion
